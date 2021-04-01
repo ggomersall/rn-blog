@@ -1,17 +1,21 @@
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 
 import BlogContext from '../context/BlogContext'
-import { FlatList } from 'react-native-gesture-handler';
 
 const IndexScreen = () => {
-  const blogPosts = useContext(BlogContext);
+  const {data, addBlogPost} = useContext(BlogContext);
 
   return (
     <View>
       <Text>Index Screen</Text>
+      <Button 
+        title="Add Post" 
+        style={styles.buttonStyle}
+        onPress={addBlogPost}
+      />
       <FlatList 
-        data={blogPosts}
+        data={data}
         keyExtractor={post => post.title}
         renderItem={({item}) => {
           return (
@@ -23,6 +27,10 @@ const IndexScreen = () => {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  buttonStyle: {
+    color: 'hotpink'
+  }
+})
 
 export default IndexScreen
