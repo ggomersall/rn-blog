@@ -1,13 +1,14 @@
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
 
 import { Context } from '../context/BlogContext'
+import { Ionicons } from '@expo/vector-icons';
 
 const IndexScreen = () => {
-  const {state, addBlogPost} = useContext(Context);
+  const {state, addBlogPost, deleteBlogPost} = useContext(Context);
 
   return (
-    <View>
+    <>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonStyle}
@@ -21,11 +22,16 @@ const IndexScreen = () => {
         keyExtractor={post => post.title}
         renderItem={({item}) => {
           return (
-            <Text>{item.title}</Text>
+            <View style={styles.rowStyle}>
+              <Text style={styles.titleStyle}>{item.title} - {item.id}</Text>
+              <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                <Ionicons style={styles.iconStyle} name="ios-trash"/>
+              </TouchableOpacity>
+            </View>
           )
         }}
       />
-    </View>
+    </>
   )
 }
 
@@ -52,6 +58,24 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     width: 150,
     textAlign: 'center'
+  },
+  rowStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderColor: 'grey',
+    // 'rowStyle:first-child': {
+    //   borderTopWidth: 1,
+    //   borderColor: 'grey'
+    // },
+  },
+  itemTitle: {
+    fontSize: 18,
+  },
+  iconStyle: {
+    fontSize: 20
   }
 })
 
