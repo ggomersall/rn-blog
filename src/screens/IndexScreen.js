@@ -1,39 +1,46 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, { useContext } from 'react';
 
-import { Context } from '../context/BlogContext'
+import { Context } from '../context/BlogContext';
 import { Ionicons } from '@expo/vector-icons';
 
-const IndexScreen = () => {
-  const {state, addBlogPost, deleteBlogPost} = useContext(Context);
+const IndexScreen = ({navigation}) => {
+  const { state, addBlogPost, deleteBlogPost } = useContext(Context);
 
   return (
     <>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={addBlogPost}
-          >
+        <TouchableOpacity style={styles.buttonStyle} onPress={addBlogPost}>
           <Text style={styles.buttonText}>Add Post</Text>
         </TouchableOpacity>
       </View>
-      <FlatList 
+      <FlatList
         data={state}
-        keyExtractor={post => post.title}
-        renderItem={({item}) => {
+        keyExtractor={(post) => post.title + post.id}
+        renderItem={({ item }) => {
           return (
-            <View style={styles.rowStyle}>
-              <Text style={styles.titleStyle}>{item.title} - {item.id}</Text>
-              <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
-                <Ionicons style={styles.iconStyle} name="ios-trash"/>
-              </TouchableOpacity>
-            </View>
-          )
+            <TouchableOpacity onPress={() => navigation.navigate('Show', {id: item.id})}>
+              <View style={styles.rowStyle}>
+                <Text style={styles.titleStyle}>
+                  {item.title} - {item.id}
+                </Text>
+                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                  <Ionicons style={styles.iconStyle} name='ios-trash' />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          );
         }}
       />
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   screenContainer: {
@@ -41,10 +48,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   buttonStyle: {
-    elevation:8,
+    elevation: 8,
     marginVertical: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
     width: 150,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   rowStyle: {
     flexDirection: 'row',
@@ -66,17 +73,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderColor: 'grey',
-    // 'rowStyle:first-child': {
-    //   borderTopWidth: 1,
-    //   borderColor: 'grey'
-    // },
   },
   itemTitle: {
     fontSize: 18,
   },
   iconStyle: {
-    fontSize: 20
-  }
-})
+    fontSize: 20,
+  },
+});
 
-export default IndexScreen
+export default IndexScreen;
