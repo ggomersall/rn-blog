@@ -16,9 +16,10 @@ const IndexScreen = ({navigation}) => {
   return (
     <>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={addBlogPost}>
+        {/* commenting this out as will be duplicate - but leaving comment in for future reference */}
+        {/* <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('Create')}>
           <Text style={styles.buttonText}>Add Post</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         data={state}
@@ -31,7 +32,7 @@ const IndexScreen = ({navigation}) => {
                   {item.title} ~ {item.id}
                 </Text>
                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
-                  <Ionicons style={styles.iconStyle} name='ios-trash' />
+                  <Ionicons style={styles.trashIconStyle} name='ios-trash' />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
@@ -41,6 +42,16 @@ const IndexScreen = ({navigation}) => {
     </>
   );
 };
+
+IndexScreen.navigationOptions = ({navigation}) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+        <Ionicons name="ios-add" style={styles.plusIconStyle} />
+      </TouchableOpacity>
+    ),
+  };
+}
 
 const styles = StyleSheet.create({
   screenContainer: {
@@ -77,20 +88,15 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 18,
   },
-  iconStyle: {
-    fontSize: 20,
+  trashIconStyle: {
+      fontSize: 20,
   },
+  plusIconStyle: {
+    color: 'hotpink',
+    fontSize: 30,
+    marginRight: 10
+  }
 });
-
-IndexScreen.navigationOptions = ({navigation}) => {
-  return {
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-        <Ionicons name="ios-add" size={30} />
-      </TouchableOpacity>
-    ),
-  };
-}
 
 export default IndexScreen;
 
