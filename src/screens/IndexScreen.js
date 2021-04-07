@@ -82,4 +82,17 @@ const styles = StyleSheet.create({
   },
 });
 
+IndexScreen.navigationOptions = ({navigation}) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+        <Ionicons name="ios-add" size={30} />
+      </TouchableOpacity>
+    ),
+  };
+}
+
 export default IndexScreen;
+
+
+
