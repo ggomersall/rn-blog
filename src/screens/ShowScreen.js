@@ -1,6 +1,8 @@
 import React, {useContext} from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
 import {Context} from '../context/BlogContext'
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ShowScreen({navigation}) {
     const { state } = useContext(Context);
@@ -10,8 +12,25 @@ export default function ShowScreen({navigation}) {
     return (
         <View>
             <Text>{blogPost.title}</Text>
+            <Text>{blogPost.content}</Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+ShowScreen.navigationOptions = ({navigation}) => {
+	return {
+		headerRight: () => (
+			<TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+				<Ionicons name="ios-pencil" style={styles.pencilIconStyle} />
+			</TouchableOpacity>
+		),
+	};
+}
+
+const styles = StyleSheet.create({
+	pencilIconStyle: {
+    color: 'hotpink',
+    fontSize: 20,
+    marginRight: 10
+  }
+})
