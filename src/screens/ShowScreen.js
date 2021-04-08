@@ -6,8 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function ShowScreen({navigation}) {
     const { state } = useContext(Context);
-    const id = navigation.getParam('id')
-    const blogPost = state.find((blogPost) => blogPost.id === id)
+    const blogPost = state.find((blogPost) => blogPost.id === navigation.getParam('id'))
 
     return (
         <View>
@@ -20,7 +19,9 @@ export default function ShowScreen({navigation}) {
 ShowScreen.navigationOptions = ({navigation}) => {
 	return {
 		headerRight: () => (
-			<TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+			<TouchableOpacity onPress={() => 
+				navigation.navigate('Edit', {id: navigation.getParam('id')})
+			}>
 				<Ionicons name="ios-pencil" style={styles.pencilIconStyle} />
 			</TouchableOpacity>
 		),
